@@ -10,7 +10,7 @@ public class ClienteTest {
 
     @Test
     public void testBuilder() {
-        final String nome = "JOAO SILVA";
+        final String nome = "JOSE DA SILVA";
         final String telefone = "9944-5588";
         final Sexo sexo = Sexo.MASCULINO;
         final String endereco = "RUA GERAL";
