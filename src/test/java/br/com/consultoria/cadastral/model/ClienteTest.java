@@ -1,7 +1,5 @@
 package br.com.consultoria.cadastral.model;
 
-import br.com.consultoria.cadastral.model.Sexo;
-import br.com.consultoria.cadastral.model.Cliente;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.Test;
@@ -27,5 +25,4 @@ public class ClienteTest {
         assertEquals(cliente.getTelefone(), telefone);
         assertEquals(cliente.getEndereco(), endereco);
     }
-
 }
