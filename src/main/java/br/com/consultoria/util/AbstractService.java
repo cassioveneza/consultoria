@@ -8,15 +8,16 @@ public abstract class AbstractService<T> {
     @PersistenceContext
     protected EntityManager em;
 
-    public void persist(T t) {
+    public T persist(final T t) {
         em.persist(t);
+        return t;
     }
 
-    public T merge(T t) {
+    public T merge(final T t) {
         return em.merge(t);
     }
 
-    public void remove(T t) {
+    public void remove(final T t) {
         em.remove(t);
     }
 }

@@ -1,21 +1,17 @@
 package br.com.consultoria.cadastral.model;
 
-import br.com.consultoria.processo.modelo.Locacao;
 import br.com.consultoria.util.AbstractBuilder;
 import br.com.consultoria.util.AbstractEntityId;
-import java.util.List;
-import javax.persistence.CascadeType;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity(name = "CLIENTES")
 public class Cliente implements AbstractEntityId {
@@ -23,26 +19,29 @@ public class Cliente implements AbstractEntityId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull
+    @Size(max = 100)
     @Column(name = "NOME")
     private String nome;
-
+    @NotNull
+    @Size(max = 100)
+    @Column(name = "NOME_INSS")
+    private String nomeInss;
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "SEXO")
     private Sexo sexo;
-
-    @Column(name = "TELEFONE")
-    private String telefone;
-
+    @Column(name = "DT_NASCIMENTO")
+    private LocalDate dataNascimento;
+    @Column(name = "CPF")
+    private String cpf;
+    @Column(name = "RG")
+    private String rg;
     @NotNull
     @Column(name = "ENDERECO")
     private String endereco;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "I_CLIENTES")
-    private List<Locacao> locacoes;
+    @Column(name = "OBSERVACOES")
+    private String observacoes;
 
     private Cliente() {
     }
@@ -52,7 +51,7 @@ public class Cliente implements AbstractEntityId {
         return id;
     }
 
-    private void setId(Long id) {
+    private void setId(final Long id) {
         this.id = id;
     }
 
@@ -60,24 +59,48 @@ public class Cliente implements AbstractEntityId {
         return nome;
     }
 
-    private void setNome(String nome) {
+    private void setNome(final String nome) {
         this.nome = nome;
+    }
+
+    public String getNomeInss() {
+        return nomeInss;
+    }
+
+    private void setNomeInss(final String nomeInss) {
+        this.nomeInss = nomeInss;
     }
 
     public Sexo getSexo() {
         return sexo;
     }
 
-    private void setSexo(Sexo sexo) {
+    private void setSexo(final Sexo sexo) {
         this.sexo = sexo;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
     }
 
-    private void setTelefone(String telefone) {
-        this.telefone = telefone;
+    private void setDataNascimento(final LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    private void setCpf(final String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    private void setRg(final String rg) {
+        this.rg = rg;
     }
 
     public String getEndereco() {
@@ -88,17 +111,17 @@ public class Cliente implements AbstractEntityId {
         this.endereco = endereco;
     }
 
-    public List<Locacao> getLocacoes() {
-        return locacoes;
+    public String getObservacoes() {
+        return observacoes;
     }
 
-    private void setLocacoes(List<Locacao> locacoes) {
-        this.locacoes = locacoes;
+    private void setObservacoes(final String observacoes) {
+        this.observacoes = observacoes;
     }
 
     public static class Builder extends AbstractBuilder<Cliente, Builder> {
 
-        private Builder(Cliente cliente) {
+        private Builder(final Cliente cliente) {
             super(cliente);
         }
 
@@ -106,32 +129,52 @@ public class Cliente implements AbstractEntityId {
             return new Builder(new Cliente());
         }
 
-        public static Builder from(Cliente cliente) {
+        public static Builder from(final Cliente cliente) {
             return new Builder(cliente);
         }
 
-        public Builder id(Long id) {
+        public Builder id(final Long id) {
             entity.setId(id);
             return this;
         }
 
-        public Builder nome(String nome) {
+        public Builder nome(final String nome) {
             entity.setNome(nome);
             return this;
         }
 
-        public Builder sexo(Sexo sexo) {
+        public Builder nomeInss(final String nomeInss) {
+            entity.setNomeInss(nomeInss);
+            return this;
+        }
+
+        public Builder sexo(final Sexo sexo) {
             entity.setSexo(sexo);
             return this;
         }
 
-        public Builder telefone(String telefone) {
-            entity.setTelefone(telefone);
+        public Builder dataNascimento(final LocalDate dataNascimento) {
+            entity.setDataNascimento(dataNascimento);
             return this;
         }
 
-        public Builder endereco(String endereco) {
+        public Builder cpf(final String cpf) {
+            entity.setCpf(cpf);
+            return this;
+        }
+
+        public Builder rg(final String rg) {
+            entity.setRg(rg);
+            return this;
+        }
+
+        public Builder endereco(final String endereco) {
             entity.setEndereco(endereco);
+            return this;
+        }
+
+        public Builder observacoes(final String observacoes) {
+            entity.setObservacoes(observacoes);
             return this;
         }
     }

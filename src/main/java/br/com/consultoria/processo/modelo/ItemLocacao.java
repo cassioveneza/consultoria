@@ -1,6 +1,6 @@
 package br.com.consultoria.processo.modelo;
 
-import br.com.consultoria.cadastral.model.Filme;
+//import br.com.consultoria.cadastral.model.Filme;
 import br.com.consultoria.util.AbstractBuilder;
 import br.com.consultoria.util.AbstractEntityId;
 import java.time.LocalDate;
@@ -26,9 +26,9 @@ public class ItemLocacao implements AbstractEntityId {
     @JoinColumn(name = "I_LOCACOES", nullable = false)
     private Locacao locacao;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "I_FILMES", nullable = false)
-    private Filme filme;
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+//    @JoinColumn(name = "I_FILMES", nullable = false)
+//    private Filme filme;
 
     @NotNull
     @Column(name = "DATA_DEVOLUCAO")
@@ -54,13 +54,13 @@ public class ItemLocacao implements AbstractEntityId {
         this.locacao = locacao;
     }
 
-    public Filme getFilme() {
-        return filme;
-    }
-
-    private void setFilme(Filme filme) {
-        this.filme = filme;
-    }
+//    public Filme getFilme() {
+//        return filme;
+//    }
+//
+//    private void setFilme(Filme filme) {
+//        this.filme = filme;
+//    }
 
     public LocalDate getDataDevolucao() {
         return dataDevolucao;
@@ -94,10 +94,10 @@ public class ItemLocacao implements AbstractEntityId {
             return this;
         }
 
-        public Builder filme(Filme filme) {
-            entity.setFilme(filme);
-            return this;
-        }
+//        public Builder filme(Filme filme) {
+//            entity.setFilme(filme);
+//            return this;
+//        }
 
         public Builder dataDevolucao(LocalDate dataDevolucao) {
             entity.setDataDevolucao(dataDevolucao);

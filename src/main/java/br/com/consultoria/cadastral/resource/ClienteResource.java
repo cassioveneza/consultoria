@@ -24,48 +24,46 @@ import javax.ws.rs.core.Response;
 public class ClienteResource {
 
     @Inject
-    private ClienteDto.RepresentationBuilder clienteDtoBuilder;
-    @Inject
     private ClienteRepository clienteRepository;
     @Inject
     private ClienteService clienteService;
+    @Inject
+    private ClienteDto.RepresentationBuilder clienteDtoBuilder;
+
+    private Cliente getCliente(final Long id) {
+        return clienteRepository.findByOrElseThrow(id);
+    }
 
     @GET
     @Path("{id}")
     public Response find(@PathParam("id") final Long id) {
-        final Cliente cliente = clienteRepository.find(id);
-        if (cliente == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        return Response.ok(clienteDtoBuilder.toRepresentation(cliente)).build();
+        return Response.ok(clienteDtoBuilder.toRepresentation(getCliente(id))).build();
     }
 
     @GET
     public Response findAll() {
-        final List<ClienteDto> clientes = clienteDtoBuilder.toRepresentation(clienteRepository.findAll());
-        return Response.ok(clientes).build();
+        final List<Cliente> clientes = clienteRepository.findAll();
+        return Response.ok(clienteDtoBuilder.toRepresentation(clientes)).build();
     }
 
     @POST
     public Response create(final ClienteDto dto) {
-        final Cliente cliente = clienteDtoBuilder.fromRepresentation(dto, Cliente.Builder.create());
-        clienteService.persist(cliente);
-        return Response.created(null).entity(clienteDtoBuilder.toRepresentation(cliente)).build();
+        final Cliente cliente = clienteService.persist(clienteDtoBuilder.fromRepresentation(dto, Cliente.Builder.create()));
+        final ClienteDto clienteDto = clienteDtoBuilder.toRepresentation(cliente);
+        return Response.created(null).entity(clienteDto).build();
     }
 
     @PUT
     @Path("{id}")
     public Response update(@PathParam("id") final Long id, final ClienteDto dto) {
-        final Cliente cliente = clienteDtoBuilder.fromRepresentation(dto, Cliente.Builder.from(
-                clienteRepository.find(dto.getId())));
+        final Cliente cliente = clienteDtoBuilder.fromRepresentation(dto, Cliente.Builder.from(getCliente(id)));
         return Response.created(null).entity(clienteDtoBuilder.toRepresentation(clienteService.merge(cliente))).build();
     }
 
     @DELETE
     @Path("{id}")
     public Response remove(@PathParam("id") final Long id) {
-        clienteService.remove(clienteRepository.find(id));
+        clienteService.remove(getCliente(id));
         return Response.noContent().build();
     }
-
 }

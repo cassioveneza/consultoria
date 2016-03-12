@@ -13,6 +13,7 @@
             <property name="javax.persistence.schema-generation.drop-script-source" value="sql/drop.sql"/>
             <property name="javax.persistence.sql-load-script-source" value="sql/load.sql"/>
             <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>
