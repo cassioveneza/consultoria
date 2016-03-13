@@ -48,6 +48,8 @@ public class ClienteResourceIT extends AbstractResourceIT {
                 .nomeInss(nomeInss)
                 .sexo(sexo)
                 .endereco(endereco)
+                .adicionarTelefone("48", "9988-3011")
+                .adicionarTelefone("48", "3436-1111")
                 .build();
         Response response = target.request().post(Entity.entity(clienteDto, MediaType.APPLICATION_JSON), Response.class);
         assertEquals(response.getStatus(), ResponseStatus.CREATED);

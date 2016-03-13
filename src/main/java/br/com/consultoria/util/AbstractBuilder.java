@@ -13,7 +13,7 @@ public abstract class AbstractBuilder<T, B extends AbstractBuilder> {
 
     protected AbstractBuilder(T entity) {
         this.entity = entity;
-        validator = Validation.buildDefaultValidatorFactory().getValidator();
+        this.validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
     protected void validate() {

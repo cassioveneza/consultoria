@@ -1,19 +1,19 @@
 package br.com.consultoria.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-public abstract class AbstractRepresentationBuilder<T, DTO, B> {
+public abstract class AbstractRepresentationBuilder<E, R, B> {
 
-    protected abstract T fromRepresentation(DTO dto, B builder);
+    protected abstract E fromRepresentation(R dto, B builder);
 
-    protected abstract DTO toRepresentation(T t);
+    protected abstract R toRepresentation(E e);
 
-    public List<DTO> toRepresentation(List<T> lista) {
-        final List<DTO> listaDto = new ArrayList<>();
-        lista.stream().forEach(registro -> {
-            listaDto.add(this.toRepresentation(registro));
-        });
-        return listaDto;
+    public Collection<R> toRepresentation(Collection<E> e) {
+        return e.stream().map(this::toRepresentation).collect(Collectors.toList());
+    }
+
+    public Collection<E> fromRepresentation(Collection<R> r, B builder) {
+        return r.stream().map(e -> fromRepresentation(e, builder)).collect(Collectors.toList());
     }
 }

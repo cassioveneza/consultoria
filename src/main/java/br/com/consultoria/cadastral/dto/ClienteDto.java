@@ -2,8 +2,12 @@ package br.com.consultoria.cadastral.dto;
 
 import br.com.consultoria.cadastral.model.Cliente;
 import br.com.consultoria.cadastral.model.Sexo;
+import br.com.consultoria.cadastral.model.Telefone;
 import br.com.consultoria.util.AbstractRepresentationBuilder;
+import br.com.consultoria.util.CollectionsBuilder;
 import java.time.LocalDate;
+import java.util.Collection;
+import javax.inject.Inject;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,12 +25,13 @@ public class ClienteDto {
     private String rg;
     private String endereco;
     private String observacoes;
+    private Collection<TelefoneDto> telefones = CollectionsBuilder.createDefaultArrayList();
 
     public ClienteDto() {
     }
 
     public ClienteDto(final Long id, final String nome, final String nomeInss, final Sexo sexo, final LocalDate dataNascimento,
-            final String cpf, final String rg, final String endereco, final String observacoes) {
+            final String cpf, final String rg, final String endereco, final String observacoes, final Collection<TelefoneDto> telefones) {
         this.id = id;
         this.nome = nome;
         this.nomeInss = nomeInss;
@@ -35,6 +40,7 @@ public class ClienteDto {
         this.rg = rg;
         this.endereco = endereco;
         this.observacoes = observacoes;
+        this.telefones = telefones;
     }
 
     public Long getId() {
@@ -73,6 +79,10 @@ public class ClienteDto {
         return observacoes;
     }
 
+    public Collection<TelefoneDto> getTelefones() {
+        return telefones;
+    }
+
     public static class ClienteDtoBuilder {
 
         private Long id;
@@ -84,6 +94,7 @@ public class ClienteDto {
         private String rg;
         private String endereco;
         private String observacoes;
+        private Collection<TelefoneDto> telefones = CollectionsBuilder.createDefaultArrayList();
 
         private ClienteDtoBuilder() {
         }
@@ -133,13 +144,28 @@ public class ClienteDto {
             return this;
         }
 
+        public ClienteDtoBuilder telefones(final Collection<TelefoneDto> telefones) {
+            this.telefones = telefones;
+            return this;
+        }
+
+        public ClienteDtoBuilder adicionarTelefone(final String ddd, final String numero) {
+            this.telefones.add(TelefoneDto.RepresentationBuilder.builder().ddd(ddd).numero(numero).build());
+            return this;
+        }
+
         public ClienteDto build() {
             return new ClienteDto(this.id, this.nome, this.nomeInss, this.sexo, this.dataNascimento, this.cpf,
-                    this.rg, this.endereco, this.observacoes);
+                    this.rg, this.endereco, this.observacoes, this.telefones);
         }
     }
 
     public static class RepresentationBuilder extends AbstractRepresentationBuilder<Cliente, ClienteDto, Cliente.Builder> {
+
+        @Inject
+        private Telefone.Builder telefoneBuilder;
+        @Inject
+        private TelefoneDto.RepresentationBuilder telefoneDtoBuilder;
 
         public static ClienteDtoBuilder builder() {
             return new ClienteDtoBuilder();
@@ -156,6 +182,7 @@ public class ClienteDto {
                     .rg(dto.getRg())
                     .endereco(dto.getEndereco())
                     .observacoes(dto.getObservacoes())
+                    .mergeTelefones(telefoneDtoBuilder.fromRepresentation(dto.getTelefones(), telefoneBuilder))
                     .build();
         }
 
@@ -171,6 +198,7 @@ public class ClienteDto {
                     .rg(cliente.getRg())
                     .endereco(cliente.getEndereco())
                     .observacoes(cliente.getObservacoes())
+                    .telefones(telefoneDtoBuilder.toRepresentation(cliente.getTelefones()))
                     .build();
         }
     }

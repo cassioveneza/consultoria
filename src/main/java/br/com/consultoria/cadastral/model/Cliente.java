@@ -2,7 +2,10 @@ package br.com.consultoria.cadastral.model;
 
 import br.com.consultoria.util.AbstractBuilder;
 import br.com.consultoria.util.AbstractEntityId;
+import br.com.consultoria.util.CollectionsBuilder;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -42,6 +46,8 @@ public class Cliente implements AbstractEntityId {
     private String endereco;
     @Column(name = "OBSERVACOES")
     private String observacoes;
+    @OneToMany(mappedBy = "cliente")
+    private List<Telefone> telefones = CollectionsBuilder.createDefaultArrayList();
 
     private Cliente() {
     }
@@ -119,6 +125,23 @@ public class Cliente implements AbstractEntityId {
         this.observacoes = observacoes;
     }
 
+    public Collection<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    private void addTelefone(final String ddd, final String numero) {
+        addTelefone(Telefone.Builder.create().ddd(ddd).numero(numero).build());
+    }
+
+    private void addTelefone(final Telefone telefone) {
+        telefone.setCliente(this);
+        this.telefones.add(telefone);
+    }
+
+    private void removeTelefone(final Telefone telefone) {
+        this.telefones.remove(telefone);
+    }
+
     public static class Builder extends AbstractBuilder<Cliente, Builder> {
 
         private Builder(final Cliente cliente) {
@@ -175,6 +198,22 @@ public class Cliente implements AbstractEntityId {
 
         public Builder observacoes(final String observacoes) {
             entity.setObservacoes(observacoes);
+            return this;
+        }
+
+        public Builder adicionaTelefone(final String ddd, final String numero) {
+            entity.addTelefone(ddd, numero);
+            return this;
+        }
+
+        public Builder removeTelefone(final Telefone telefone) {
+            entity.removeTelefone(telefone);
+            return this;
+        }
+
+        public Builder mergeTelefones(final Collection<Telefone> telefones) {
+            entity.telefones.forEach(telefone -> entity.removeTelefone(telefone));
+            telefones.forEach(telefone -> entity.addTelefone(telefone));
             return this;
         }
     }

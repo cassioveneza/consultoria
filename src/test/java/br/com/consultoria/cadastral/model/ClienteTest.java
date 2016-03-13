@@ -27,6 +27,7 @@ public class ClienteTest {
                 .rg(rg)
                 .endereco(endereco)
                 .observacoes(observacoes)
+                .adicionaTelefone("48", "3433-1085")
                 .build();
         assertNotNull(cliente);
         assertEquals(cliente.getNome(), nome);
@@ -37,5 +38,6 @@ public class ClienteTest {
         assertEquals(cliente.getRg(), rg);
         assertEquals(cliente.getEndereco(), endereco);
         assertEquals(cliente.getObservacoes(), observacoes);
+        assertEquals(cliente.getTelefones().size(), 1);
     }
 }
