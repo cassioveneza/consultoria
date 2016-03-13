@@ -2,7 +2,7 @@ package br.com.consultoria.util;
 
 public class Api {
 
-    private final static String URL_BASE = "http://localhost:8080/api/consulta-processos";
+    private final static String URL_BASE = "http://localhost:8080/api/consultoria";
 
     public static class Clientes {
 
