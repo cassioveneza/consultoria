@@ -182,7 +182,7 @@ public class ClienteDto {
                     .rg(dto.getRg())
                     .endereco(dto.getEndereco())
                     .observacoes(dto.getObservacoes())
-                    .mergeTelefones(telefoneDtoBuilder.fromRepresentation(dto.getTelefones(), telefoneBuilder))
+                    .mergeTelefones(dto.getTelefones())
                     .build();
         }
 

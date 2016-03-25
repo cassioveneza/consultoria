@@ -25,9 +25,24 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.2.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>3.4.3</version>
             <scope>provided</scope>
+        </dependency>    
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>3.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.1</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -114,11 +129,6 @@
             <artifactId>shrinkwrap-depchain</artifactId>
             <version>1.2.2</version>
             <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>5.2.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -210,6 +220,22 @@
                         <goals>
                             <goal>verify</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>maven-apt-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/generated-sources/java</outputDirectory>
+                            <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

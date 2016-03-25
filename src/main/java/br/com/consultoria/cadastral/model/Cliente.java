@@ -1,11 +1,14 @@
 package br.com.consultoria.cadastral.model;
 
+import br.com.consultoria.cadastral.dto.TelefoneDto;
 import br.com.consultoria.util.AbstractBuilder;
 import br.com.consultoria.util.AbstractEntityId;
 import br.com.consultoria.util.CollectionsBuilder;
+import com.google.common.collect.ImmutableSet;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import javax.inject.Inject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -144,6 +147,9 @@ public class Cliente implements AbstractEntityId {
 
     public static class Builder extends AbstractBuilder<Cliente, Builder> {
 
+        @Inject
+        private TelefoneRepository telefoneRepository;
+
         private Builder(final Cliente cliente) {
             super(cliente);
         }
@@ -211,9 +217,21 @@ public class Cliente implements AbstractEntityId {
             return this;
         }
 
-        public Builder mergeTelefones(final Collection<Telefone> telefones) {
-            entity.telefones.forEach(telefone -> entity.removeTelefone(telefone));
-            telefones.forEach(telefone -> entity.addTelefone(telefone));
+        //TODO redefinir merge para não ter dependência do DTO no modelo
+        public Builder mergeTelefones(final Collection<TelefoneDto> telefonesDto) {
+            final Collection<Telefone> telefonesOriginais = ImmutableSet.copyOf(entity.telefones);
+
+            telefonesDto.stream().forEach(dto -> {
+                if (telefonesOriginais.stream().noneMatch(t -> t.getDDD().equals(dto.getDDD()) && t.getNumero().equals(dto.getNumero()))) {
+                    adicionaTelefone(dto.getDDD(), dto.getNumero());
+//                } else {
+//                    final Telefone telefone = telefoneRepository.findByClienteDddENumero(entity.getId(), dto.getDDD(), dto.getNumero());
+//                    Telefone.Builder.from(telefone).
+                }
+            }
+            );
+
+            telefonesOriginais.forEach(this::removeTelefone);
             return this;
         }
     }
