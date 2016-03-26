@@ -3,6 +3,7 @@ package br.com.consultoria.util;
 import java.net.URI;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import org.jboss.arquillian.testng.Arquillian;
 import org.testng.annotations.BeforeClass;
 
 public abstract class AbstractResourceIT {

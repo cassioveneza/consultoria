@@ -12,20 +12,23 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
-@Test
 public class ClienteResourceIT extends AbstractResourceIT {
 
     @Deployment(testable = false)
-    public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addPackages(true, Cliente.class.getPackage(),
-                        ClienteDto.class.getPackage(),
-                        ClienteResource.class.getPackage());
+    public static WebArchive createTestableDeployment() {
+        final WebArchive war = ShrinkWrap.create(WebArchive.class, "example.war")
+                .addClasses(Cliente.class, ClienteDto.class, ClienteResource.class)
+                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
+                // Enable CDI
+                .addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
+        return war;
     }
 
     @Override
@@ -76,6 +79,7 @@ public class ClienteResourceIT extends AbstractResourceIT {
         Cliente clienteResponseUpdated = response.readEntity(Cliente.class);
         assertNotNull(clienteResponseUpdated);
         assertEquals(clienteResponseUpdated.getNome(), nomeAlterado);
+//        assertEquals(clienteResponseUpdated.getNome(), nomeAlterado);
 
         //delete
         response = targetResource.request().delete();
@@ -83,7 +87,7 @@ public class ClienteResourceIT extends AbstractResourceIT {
 
         //find
         //TODO Verificar tratamento do EntityNotFoundException 
-//        response = targetResource.request().get();
+//        response = targetResource.request().get();-
 //        assertEquals(response.getStatus(), ResponseStatus.NOT_FOUND);
     }
 
