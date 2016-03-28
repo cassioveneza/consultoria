@@ -6,7 +6,7 @@ import javax.ws.rs.client.WebTarget;
 import org.jboss.arquillian.testng.Arquillian;
 import org.testng.annotations.BeforeClass;
 
-public abstract class AbstractResourceIT {
+public abstract class AbstractResourceIT extends Arquillian {
 
     protected WebTarget target;
 

@@ -21,6 +21,13 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(br.com.consultoria.cadastral.resource.ClienteResource.class);
+        resources.add(com.fasterxml.jackson.jaxrs.base.JsonMappingExceptionMapper.class);
+        resources.add(com.fasterxml.jackson.jaxrs.base.JsonParseExceptionMapper.class);
+        resources.add(com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider.class);
+        resources.add(com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider.class);
+        resources.add(com.fasterxml.jackson.jaxrs.json.JsonMappingExceptionMapper.class);
+        resources.add(com.fasterxml.jackson.jaxrs.json.JsonParseExceptionMapper.class);
+        resources.add(org.glassfish.jersey.server.wadl.internal.WadlResource.class);
     }
     
 }

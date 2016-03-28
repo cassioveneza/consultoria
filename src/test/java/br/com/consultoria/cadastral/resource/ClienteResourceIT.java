@@ -21,15 +21,16 @@ import org.testng.annotations.Test;
 
 public class ClienteResourceIT extends AbstractResourceIT {
 
-    @Deployment(testable = false)
-    public static WebArchive createTestableDeployment() {
-        final WebArchive war = ShrinkWrap.create(WebArchive.class, "example.war")
-                .addClasses(Cliente.class, ClienteDto.class, ClienteResource.class)
-                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
-                // Enable CDI
-                .addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
-        return war;
-    }
+//    @Deployment(testable = false)
+//    public static WebArchive createDeployment() {
+//        final WebArchive war = ShrinkWrap.create(WebArchive.class, "example.war")
+//                .addClasses(Cliente.class, ClienteDto.class, ClienteResource.class)
+//                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
+//                // Enable CDI
+//                .addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
+//                ;
+//        return war;
+//    }
 
     @Override
     public String getURI() {
