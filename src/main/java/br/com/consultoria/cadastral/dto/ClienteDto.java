@@ -162,11 +162,6 @@ public class ClienteDto {
 
     public static class RepresentationBuilder extends AbstractRepresentationBuilder<Cliente, ClienteDto, Cliente.Builder> {
 
-        @Inject
-        private Telefone.Builder telefoneBuilder;
-        @Inject
-        private TelefoneDto.RepresentationBuilder telefoneDtoBuilder;
-
         public static ClienteDtoBuilder builder() {
             return new ClienteDtoBuilder();
         }
@@ -198,7 +193,7 @@ public class ClienteDto {
                     .rg(cliente.getRg())
                     .endereco(cliente.getEndereco())
                     .observacoes(cliente.getObservacoes())
-                    .telefones(telefoneDtoBuilder.toRepresentation(cliente.getTelefones()))
+//                    .telefones(telefoneDtoBuilder.toRepresentation(cliente.getTelefones()))
                     .build();
         }
     }

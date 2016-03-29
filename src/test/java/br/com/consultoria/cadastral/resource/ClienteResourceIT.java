@@ -1,37 +1,38 @@
 package br.com.consultoria.cadastral.resource;
 
 import br.com.consultoria.cadastral.dto.ClienteDto;
+import br.com.consultoria.cadastral.dto.TelefoneDto;
 import br.com.consultoria.cadastral.model.Cliente;
+import br.com.consultoria.cadastral.model.ClienteRepository;
+import br.com.consultoria.cadastral.model.ClienteService;
 import br.com.consultoria.cadastral.model.Sexo;
+import br.com.consultoria.cadastral.model.Telefone;
 import br.com.consultoria.util.AbstractResourceIT;
 import br.com.consultoria.util.Api;
 import br.com.consultoria.util.ResponseStatus;
+import javax.enterprise.inject.Produces;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.Test;
 
 public class ClienteResourceIT extends AbstractResourceIT {
 
-//    @Deployment(testable = false)
-//    public static WebArchive createDeployment() {
-//        final WebArchive war = ShrinkWrap.create(WebArchive.class, "example.war")
-//                .addClasses(Cliente.class, ClienteDto.class, ClienteResource.class)
-//                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
-//                // Enable CDI
-//                .addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
-//                ;
-//        return war;
-//    }
-
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        return ShrinkWrap.create(WebArchive.class)
+                .addClasses(Cliente.class, ClienteDto.class, ClienteService.class, ClienteRepository.class, ClienteResource.class)
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+    }
+    
     @Override
     public String getURI() {
         return Api.Clientes.SELF;
@@ -80,7 +81,6 @@ public class ClienteResourceIT extends AbstractResourceIT {
         Cliente clienteResponseUpdated = response.readEntity(Cliente.class);
         assertNotNull(clienteResponseUpdated);
         assertEquals(clienteResponseUpdated.getNome(), nomeAlterado);
-//        assertEquals(clienteResponseUpdated.getNome(), nomeAlterado);
 
         //delete
         response = targetResource.request().delete();
