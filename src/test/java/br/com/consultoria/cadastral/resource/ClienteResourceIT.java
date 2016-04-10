@@ -1,16 +1,13 @@
 package br.com.consultoria.cadastral.resource;
 
 import br.com.consultoria.cadastral.dto.ClienteDto;
-import br.com.consultoria.cadastral.dto.TelefoneDto;
 import br.com.consultoria.cadastral.model.Cliente;
 import br.com.consultoria.cadastral.model.ClienteRepository;
 import br.com.consultoria.cadastral.model.ClienteService;
 import br.com.consultoria.cadastral.model.Sexo;
-import br.com.consultoria.cadastral.model.Telefone;
 import br.com.consultoria.util.AbstractResourceIT;
 import br.com.consultoria.util.Api;
 import br.com.consultoria.util.ResponseStatus;
-import javax.enterprise.inject.Produces;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -32,7 +29,7 @@ public class ClienteResourceIT extends AbstractResourceIT {
                 .addClasses(Cliente.class, ClienteDto.class, ClienteService.class, ClienteRepository.class, ClienteResource.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
-    
+
     @Override
     public String getURI() {
         return Api.Clientes.SELF;

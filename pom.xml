@@ -215,6 +215,9 @@
                     <systemPropertyVariables>
                         <arquillian.launch>jbossas</arquillian.launch>
                     </systemPropertyVariables>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
                 </configuration>
             </plugin>
             <plugin>
@@ -222,6 +225,12 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
                     <encoding>UTF-8</encoding>
+                    <includes>
+                        <include>**/*IT.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <arquillian.launch>jbossas</arquillian.launch>
+                    </systemPropertyVariables>
                 </configuration>
                 <version>2.17</version>
                 <executions>
